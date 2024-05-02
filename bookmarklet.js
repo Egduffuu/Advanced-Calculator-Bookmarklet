@@ -1,4 +1,6 @@
 javascript:(function() {
+    alert('The calculator can be closed or shown with Alt+Shift+C.\n\nYou can also drag the calculator to reposition it.');
+
     const calculatorStyle = `
         position: fixed;
         top: 50%;
@@ -12,13 +14,13 @@ javascript:(function() {
         z-index: 9999;
     `;
     const buttonStyle = `
-        padding: 10px;
+        padding: 15px;
         margin: 5px;
         font-size: 16px;
         border: none;
         background-color: #007bff;
         color: #fff;
-        border-radius: 4px;
+        border-radius: 8px;
         cursor: pointer;
         transition: background-color 0.3s;
     `;
@@ -27,6 +29,12 @@ javascript:(function() {
         const calculator = document.createElement('div');
         calculator.id = 'calculator';
         calculator.style.cssText = calculatorStyle;
+        calculator.draggable = true;
+        calculator.addEventListener('drag', (event) => {
+            const { clientX, clientY } = event;
+            calculator.style.left = clientX + 'px';
+            calculator.style.top = clientY + 'px';
+        });
 
         const output = document.createElement('input');
         output.id = 'output';
@@ -40,8 +48,8 @@ javascript:(function() {
             '1', '2', '3', '+', 
             '4', '5', '6', '-', 
             '7', '8', '9', '*', 
-            '0', '.', '/', '=', 
-            'Clear', 'Back'
+            '0', '/', 'x', '%', 
+            '=', 'Clear', 'Back'
         ];
 
         buttons.forEach(btn => {
@@ -83,15 +91,6 @@ javascript:(function() {
                 break;
         }
     }
-
-    function toggleCalculator(event) {
-        if (event.ctrlKey && event.shiftKey && event.key === '=') {
-            const calculator = document.getElementById('calculator');
-            calculator.style.display = calculator.style.display === 'none' ? 'block' : 'none';
-        }
-    }
-
-    document.addEventListener('keydown', toggleCalculator);
 
     if (!document.getElementById('calculator')) {
         createCalculator();
