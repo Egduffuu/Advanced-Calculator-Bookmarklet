@@ -37,10 +37,10 @@ javascript:(function() {
         calculator.appendChild(output);
 
         const buttons = [
-            '7', '8', '9', '/', 
-            '4', '5', '6', '*', 
-            '1', '2', '3', '-', 
-            '0', '.', '=', '+', 
+            '1', '2', '3', '+', 
+            '4', '5', '6', '-', 
+            '7', '8', '9', '*', 
+            '0', '.', '/', '=', 
             'Clear', 'Back'
         ];
 
@@ -51,6 +51,13 @@ javascript:(function() {
             button.addEventListener('click', () => handleButtonClick(btn));
             calculator.appendChild(button);
         });
+
+        const footer = document.createElement('div');
+        footer.textContent = 'Made by Egduffuu on GitHub';
+        footer.style.textAlign = 'center';
+        footer.style.marginTop = '10px';
+        footer.style.color = '#666';
+        calculator.appendChild(footer);
 
         document.body.appendChild(calculator);
     }
@@ -76,6 +83,15 @@ javascript:(function() {
                 break;
         }
     }
+
+    function toggleCalculator(event) {
+        if (event.ctrlKey && event.shiftKey && event.key === '=') {
+            const calculator = document.getElementById('calculator');
+            calculator.style.display = calculator.style.display === 'none' ? 'block' : 'none';
+        }
+    }
+
+    document.addEventListener('keydown', toggleCalculator);
 
     if (!document.getElementById('calculator')) {
         createCalculator();
